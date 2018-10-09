@@ -3,9 +3,9 @@ import React, { Component } from 'react'
 class Post extends Component {
     render(){
         return (
-            <div>
-                Ola {this.props.title}
-            </div>
+            <li>
+                <h2>{this.props.title}</h2>
+            </li>
         )
     }
 }
