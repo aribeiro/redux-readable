@@ -35,17 +35,18 @@ export const addPost = (post) =>
 export const getPost = (id) =>
     fetch(`${api}/posts/${id}`, { headers })
         .then(res => res.json())
-        .then(data => data.post)
+        .then(data => data)
 
-export const votePost = (id) =>
+export const votePost = (id, option) =>
     fetch(`${api}/posts/${id}`, {
         method: 'POST',
         headers: {
             ...headers,
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(id)
-    }).then(res => res.json())
+        body: JSON.stringify({option})
+    })
+    .then(res => res.json())
 
 export const updatePost = (id, post) =>
     fetch(`${api}/posts/${id}`, {
