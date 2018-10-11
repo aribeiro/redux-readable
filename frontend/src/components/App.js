@@ -15,7 +15,6 @@ class App extends Component {
     }
 
     render() {
-        console.log(this.props)
         return (
             <div className="App">
                 <Jumbotron>
@@ -23,7 +22,7 @@ class App extends Component {
                 </Jumbotron>
                 <ul>
                     {this.props.posts.map((post) => {
-                        return <Post key={post.id} title={post.title}/>
+                        return <Post key={post.id} post={post}/>
                     })}
                 </ul>
             </div>
