@@ -2,11 +2,16 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import * as API from '../ReadableAPI'
 
+import Comment from './Comment'
+
 class Post extends Component {
-    state = {post: null}
+    state = {post: null, comments: []}
     componentDidMount(){
         const { post } = this.props 
         this.setState({post})
+
+        API.getPostComments(post.id)
+            .then(comments => this.setState({comments}))
     }
 
     upVote = () => {
@@ -27,7 +32,7 @@ class Post extends Component {
     }
 
     render(){
-        const { post } = this.state
+        const { post, comments } = this.state
         if(post){
             return (
                 <li>
@@ -38,6 +43,13 @@ class Post extends Component {
                     <div>{post.body}</div>
                     <h4>Author: {post.author}</h4>
                     <p>{post.commentCount} {post.commentCount > 1 ? "Comments" : "Comment"}</p>
+                    <div>
+                        <ul>
+                            {comments.map(comment => {
+                                return <Comment key={comment.id} comment={comment} />
+                            })}
+                        </ul>
+                    </div>
                     <button onClick={this.addComment}>ADD COMMENT</button>
                 </li>
             )
