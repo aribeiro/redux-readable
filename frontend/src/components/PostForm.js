@@ -23,8 +23,6 @@ class PostForm extends Component {
             body: this.body.value,
             author: this.author.value,
             category: this.category.value,
-            voteScore: 0,
-            deleted: false
         }
         API.addPost(post).then(data => console.log(data))
     }
