@@ -1,35 +1,22 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { Jumbotron, Row } from 'reactstrap'
-import * as API from '../ReadableAPI'
+import { Route } from 'react-router-dom'
 
-import { addPost } from '../actions/posts'
-import Post from './Post'
+import Posts from './Posts'
+import PostForm from './PostForm'
 
 class App extends Component {
-    componentDidMount(){
-        const { dispatch } = this.props
-        API.getPosts().then(data => {
-            data.map(post => dispatch(addPost(post)))
-        })
-    }
 
     render() {
         return (
             <div className="App">
-                <Jumbotron>
-                    <h1>Readable APP</h1> 
-                </Jumbotron>
-                <ul>
-                    {this.props.posts.map((post) => {
-                        return <Post key={post.id} post={post}/>
-                    })}
-                </ul>
+                <Route exact path="/" render={() => (
+                    <Posts />
+                )} />
+                <Route exact path="/posts/new" render={() => (
+                    <PostForm /> 
+                )} />
             </div>
-        );
+        )
     }
 }
-
-export default connect((state) => ({
-    posts: state.posts
-}))(App)
+export default App
