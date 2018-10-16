@@ -10,7 +10,7 @@ const headers = { 'Accept': 'application/json', 'Authorization': token }
 export const getCategories = () =>
     fetch(`${api}/categories`, { headers })
         .then(res => res.json())
-        .then(data => data)
+        .then(data => data.categories)
 
 export const getCategoryPosts = (category) =>
     fetch(`${api}/${category}/posts`, { headers })
@@ -29,7 +29,7 @@ export const addPost = (post) =>
             ...headers,
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ post })
+        body: JSON.stringify(post)
     }).then(res => res.json())
 
 export const getPost = (id) =>
