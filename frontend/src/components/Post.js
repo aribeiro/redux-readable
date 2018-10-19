@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom' 
 import * as API from '../ReadableAPI'
 
 import Comment from './Comment'
@@ -50,7 +51,7 @@ class Post extends Component {
                             })}
                         </ul>
                     </div>
-                    <button onClick={this.addComment}>ADD COMMENT</button>
+                    <Link to={`/posts/${post.id}/comments/new`}>ADD COMMENT</Link>
                 </li>
             )
         }else{
