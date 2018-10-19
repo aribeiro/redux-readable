@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import * as API from '../ReadableAPI'
 
 class Comment extends Component {
-    state = { comment: null }
+    state = { comment: null, comments: [] }
 
     componentDidMount(){ 
         const { comment } = this.props
@@ -35,6 +35,7 @@ class Comment extends Component {
                     <p>{comment.body}</p>
                     <button>Edit</button>
                     <button>Delete</button>
+                    
                 </div>
             )
         }else{

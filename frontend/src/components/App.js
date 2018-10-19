@@ -3,6 +3,7 @@ import { Route } from 'react-router-dom'
 
 import Posts from './Posts'
 import PostForm from './PostForm'
+import CommentForm from './CommentForm'
 
 class App extends Component {
 
@@ -15,6 +16,10 @@ class App extends Component {
                 <Route exact path="/posts/new" render={() => (
                     <PostForm /> 
                 )} />
+                <Route 
+                    exact 
+                    path="/posts/:id/comments/new" 
+                    component={CommentForm} />
             </div>
         )
     }
