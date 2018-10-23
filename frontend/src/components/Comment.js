@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 import * as API from '../ReadableAPI'
 
 class Comment extends Component {
@@ -23,6 +24,14 @@ class Comment extends Component {
             })
     }
 
+    deleteComment = () => {
+        API.deleteComment(this.state.comment.id)
+            .then(comment => {
+                this.setState({comment})
+            })
+    }
+    
+
     render(){
         const { comment } = this.state
         if(comment){
@@ -33,8 +42,8 @@ class Comment extends Component {
                     <button onClick={this.upVote}>+</button>
                     <button onClick={this.downVote}>-</button>
                     <p>{comment.body}</p>
-                    <button>Edit</button>
-                    <button>Delete</button>
+                    <Link to={`/comments/${comment.id}/edit`}>Edit</Link>
+                    <button onClick={this.deleteComment}>Delete</button>
                     
                 </div>
             )

@@ -20,6 +20,10 @@ class App extends Component {
                     exact 
                     path="/posts/:id/comments/new" 
                     component={CommentForm} />
+                <Route 
+                    exact 
+                    path="/comments/:id/edit" 
+                    component={CommentForm} />
             </div>
         )
     }

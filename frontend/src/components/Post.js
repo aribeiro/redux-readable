@@ -28,10 +28,6 @@ class Post extends Component {
             })
     }
 
-    addComment = () => {
-        console.log('Add Comment Here')
-    }
-
     render(){
         const { post, comments } = this.state
         if(post){
