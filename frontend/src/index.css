@@ -2,4 +2,34 @@ body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
+  background-color: lightgray;
+}
+.App{
+  margin: auto;
+  max-width: 1024px
+}
+
+.main{
+  height: 100%;
+}
+.content{
+  background: #fefefe
+}
+.votes{
+  width: 10%;
+  float: left
+}
+.blog-post{
+  background: #ffffff;
+  float: left;
+  width: 100%;
+}
+.blog-post-content{
+  width: 90%;
+  float: left
+}
+aside{
+  height: 100%;
+  background: #f3f3f3;
+  padding: 30px;
 }
