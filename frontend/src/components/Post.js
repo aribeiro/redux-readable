@@ -1,59 +1,97 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom' 
-import * as API from '../ReadableAPI'
+import { withRouter, Link } from 'react-router-dom'
+import { Row, Col } from 'reactstrap'
+import sortBy from 'sort-by'
+
+import {
+    handleAddPostVote,
+    handleDeletePostVote,
+    handleDeletePost
+} from '../actions/posts'
 
 import Comment from './Comment'
+import Votes from './Votes'
+import PostDetails from './PostDetails'
+import Edit from './Edit'
 
 class Post extends Component {
-    state = {post: null, comments: []}
-    componentDidMount(){
-        const { post } = this.props 
-        this.setState({post})
-
-        API.getPostComments(post.id)
-            .then(comments => this.setState({comments}))
-    }
-
     upVote = () => {
-        API.votePost(this.state.post.id, 'upVote')
-            .then(post => {
-                this.setState({post})
-            })
+        const { dispatch, post } = this.props
+        dispatch(handleAddPostVote(post.id))
     }
+
     downVote = () => {
-        API.votePost(this.state.post.id, 'downVote')
-            .then(post => {
-                this.setState({post})
-            })
+        const { dispatch, post } = this.props
+        dispatch(handleDeletePostVote(post.id))
+    }
+
+    deletePost = () => {
+        const { dispatch, post } = this.props
+        dispatch(handleDeletePost(post))
+        this.props.history.push('/')
     }
 
     render(){
-        const { post, comments } = this.state
+        const { post, comments } = this.props
         if(post){
             return (
-                <li>
-                    <h2>{post.title}</h2>
-                    <h3>{post.voteScore} {post.voteScore > 1 || post.voteScore < -1 ? "Points" : "Vote"} </h3>
-                    <button onClick={this.upVote}>+</button>
-                    <button onClick={this.downVote}>-</button>
-                    <div>{post.body}</div>
-                    <h4>Author: {post.author}</h4>
-                    <p>{post.commentCount} {post.commentCount > 1 ? "Comments" : "Comment"}</p>
-                    <div>
-                        <ul>
-                            {comments.map(comment => {
-                                return <Comment key={comment.id} comment={comment} />
-                            })}
-                        </ul>
-                    </div>
-                    <Link to={`/posts/${post.id}/comments/new`}>ADD COMMENT</Link>
-                </li>
+                <main role="main" className="container" style={{ marginTop: "20px"}}>
+                    <Row>
+                        <Col className="blog-main">
+                            <div className="blog-post">
+                                <Votes 
+                                    votes={post.voteScore} 
+                                    upVote={this.upVote} 
+                                    downVote={this.downVote} />
+                                <div className="blog-post-content">
+                                    <h2 className="blog-post-title">{post.title}</h2>
+                                    <PostDetails
+                                        author={post.author}
+                                        date={post.timestamp}
+                                        commentCount={post.commentCount} 
+                                        edit={
+                                            <Edit
+                                                editLink={`/posts/${post.id}/edit`}
+                                                onDelete={this.deletePost} />
+                                        }
+                                    />
+
+                                    {post.body}
+
+                                    <hr/>
+
+                                    <Link 
+                                        style={{marginLeft: '20px'}} 
+                                        to={`/posts/${post.id}/comments/new`}>
+                                        ADD COMMENT
+                                    </Link>
+                                    {comments.map(comment => 
+                                        <Comment key={comment} id={comment} />
+                                    )}
+                                </div>
+
+                            </div>
+                        </Col>
+                    </Row>
+                </main>
             )
-        }else{
-            return <li>Loading ...</li>
+        }else {
+            return ""
         }
     }
 }
 
-export default Post
+function mapStateToProps(state, { match }){
+    const { id } = match.params
+    return {
+        post: state.posts[id],
+        comments: Object
+                    .values(state.comments)
+                    .filter(comment =>
+                        comment.parentId === id && !comment.deleted)
+                    .sort(sortBy('-voteScore'))
+                    .map(comment => comment.id)
+    }
+}
+export default withRouter(connect(mapStateToProps)(Post))

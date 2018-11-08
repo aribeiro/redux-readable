@@ -1,20 +1,35 @@
-import React, { Component } from 'react'
+import React from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCaretUp, faCaretDown } from '@fortawesome/free-solid-svg-icons'
 
-class Votes extends Component {
-    state = { votes: this.props.votes}
-    
-    addVote = () => {
-       this.setState(votes: votes + 1) 
-    }
-
-    render(){
-        const { votes } = this.props
+function Votes({ votes, upVote, downVote }){
         return (
-            <div onClick={(event) => this.addVote()}>
-                {`${votes} {votes < 1 ? "vote" : "votes"}`}
+            <div className="votes">
+                <div 
+                    className="text-center" 
+                    style={{ 
+                        marginTop: "-8px", 
+                        marginBottom: "-14px" 
+                    }}>
+                    <FontAwesomeIcon 
+                        icon={faCaretUp} 
+                        size="2x" 
+                        onClick={upVote} />
+                </div>
+                <div className="text-center">
+                    {votes}
+                </div>
+                <div 
+                    className="text-center" 
+                    style={{ 
+                        marginTop: "-14px" 
+                    }}>
+                    <FontAwesomeIcon 
+                        icon={faCaretDown} 
+                        size="2x" 
+                        onClick={downVote} />
+                </div>
             </div>
         )
-    }
 }
-
-export default connect({store.votes})(Votes)
+export default Votes

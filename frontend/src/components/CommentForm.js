@@ -1,81 +1,95 @@
 import React, { Component } from 'react'
-import * as API from '../ReadableAPI'
+import { connect } from 'react-redux'
+import { Button, Form, FormGroup, Label, Input } from 'reactstrap'
+import { generateId } from '../lib/utils'
 
-function generateId () {
-    return Math.random().toString(36).substring(2) + (new Date()).getTime().toString(36);
-}
+import { handleAddComment } from '../actions/comments'
 
 class CommentForm extends Component {
-    state = { comment: null, parentId: null, isNew: false, author: '', body: '', }
-
-    componentDidMount(){
-        const { id } = this.props.match.params
-        if(id){
-            API.getComment(id)
-                .then(comment => {
-                    const isNew = comment.hasOwnProperty("error")
-                    const parentId = isNew ? id : comment.parentId
-                    this.setState({ comment,
-                                    parentId,
-                                    isNew,
-                                    author: comment.author,
-                                    body: comment.body })
-                })
-        }
+    state = {
+        comment: null,
+        parentId: null,
+        author: '',
+        body: ''
     }
 
-    updateFields = (value, target) => {
-        if(target === "author"){
-            this.setState({ author: value })
-        } else if(target === "body"){
-            this.setState({ body: value })
-        }
+    componentDidMount(){
+        const { comment, match } = this.props
+        this.setState({
+            comment,
+            author: comment? comment.author : "",
+            parentId: comment ? comment.parentId : match.params.id,
+            body: comment ? comment.body : "",
+        })
+    }
+
+    updateFields = (target) => {
+        this.setState({ [target.name]: target.value })
     }
 
     saveComment = () => {
-        const { comment, parentId, isNew , body, author } = this.state
+        const { dispatch } = this.props
+        const { comment, parentId, body, author } = this.state
 
         const newComment = {
-            id: isNew ? generateId() : comment.id,
+            id: comment ? comment.id : generateId(),
+            voteScore: comment ? comment.voteScore : 1,
             parentId,
             timestamp: Date.now(),
             body,
             author
         }
 
-        isNew
-            ? API.addComment(newComment)
-            : API.updateComment(comment.id, newComment)
-
-        this.props.history.push('/')
+        dispatch(handleAddComment(newComment, comment))
+        this.props.history.push(`/posts/${newComment.parentId}`)
     }
 
     render(){
-        const { comment, isNew, author, body } = this.state
+        const { comment, author, body } = this.state
         return (
-            <div>
-                <div>
-                    <input
-                        type="text"
-                        ref={(input) => this.author = input }
-                        placeholder="Author"
-                        value={ comment ? author : '' }
-                        onChange={(event) => this.updateFields(event.target.value, "author")}
-                    />
+            <main role="main" className="container" style={{ marginTop: "20px"}}>
+                <div className="row">
+                    <div className="col-md-8 blog-main">
+                        <Form style={{padding: "0 20px 20px 20px"}}>
+                            <FormGroup>
+                                <Label for="author">Author</Label>
+                                <Input
+                                    type="text"
+                                    name="author"
+                                    ref={(input) => this.author = input }
+                                    placeholder="Author"
+                                    value={author}
+                                    onChange={(event) => this.updateFields(event.target)}
+                                />
+                            </FormGroup>
+                            <FormGroup>
+                                <Label for="body">Body</Label>
+                                <Input
+                                    type="textarea"
+                                    name="body"
+                                    ref={(input) => this.body = input }
+                                    value={body}
+                                    onChange={(event) => this.updateFields(event.target)}
+                                />
+                            </FormGroup>
+                            <div>
+                                <Button
+                                    onClick={this.saveComment} >
+                                    {comment ? "Edit" : "Add"} Comment
+                                </Button>
+                            </div>
+                        </Form>
+                    </div>
                 </div>
-                <div>
-                    <textarea
-                        ref={(input) => this.body = input }
-                        value={ comment ? body : "" }
-                        onChange={(event) => this.updateFields(event.target.value, "body")}
-                    />
-                </div>
-                <div>
-                    <button onClick={this.saveComment}>{isNew ? "Add" : "Edit"} Comment</button>
-                </div>
-            </div>
+            </main>
         )
     }
 }
 
-export default CommentForm
+function mapStateToProps(state, { match }){
+    const { id } = match.params
+    return {
+        comment: state.comments[id]
+    }
+}
+export default connect(mapStateToProps)(CommentForm)

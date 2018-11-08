@@ -1,39 +1,79 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
-import { Jumbotron, Row } from 'reactstrap'
-import { Link } from 'react-router-dom'
-import * as API from '../ReadableAPI'
-
-import { addPost } from '../actions/posts'
-import Post from './Post'
-
-import Comment from './Comment'
+import { withRouter, Link } from 'react-router-dom'
+import sortBy from 'sort-by'
+import { sortParam } from '../lib/utils'
+import { Form, FormGroup, Label, Input, Button } from 'reactstrap'
+import PostPreview from './PostPreview'
 
 class Posts extends Component {
-    componentDidMount(){
-        const { dispatch } = this.props
-        API.getPosts().then(data => {
-            data.map(post => dispatch(addPost(post)))
-        })
+
+    filterPosts = (event) =>{
+        const { pathname } = this.props.location
+        const path = `${pathname.replace(/\/by.*$/, "/")}/by/${event.target.value}`
+                        .replace(/\/\//, "/")
+        this.props.history.push(path)
     }
 
     render () {
-        return (
-            <div>
-                <Jumbotron>
-                    <h1>Readable APP</h1> 
-                </Jumbotron>
-                <Link to="/posts/new">Add Post</Link>
-                <ul>
-                    {this.props.posts.map((post) => {
-                        return <Post key={post.id} post={post}/>
-                    })}
-                </ul>
-            </div>
+        const { posts } = this.props
+        const { sortCode } = this.props.match.params
+        return  (
+            <Fragment>
+                <main role="main" className="container" style={{ marginTop: "20px"}}>
+                    <div className="row">
+                        
+                        <div className="col-md-8 blog-main">
+                            {posts.length === 0 && <h2>Posts not found!</h2>}
+                            {posts.map((post) => {
+                                return <PostPreview key={post.id} postId={post.id} />
+                            })}
+                        </div>
+
+                        <aside className="col-md-4 blog-sidebar text-right">
+                            <Button
+                                size="lg"
+                                tag={Link}
+                                color="primary"
+                                to="/posts/new">
+                                Add New Post
+                            </Button>
+                            <Form style={{paddingTop: "30px"}}>
+                            <FormGroup>
+                                <Label for="orderBy">Order by</Label>
+                                <Input
+                                    type="select"
+                                    name="select"
+                                    id="orderBy"
+                                    value={sortCode}
+                                    onChange={(event) => this.filterPosts(event) } >
+                                    <option value="latest"    >Latest</option>
+                                    <option value="oldest"    >Oldest</option>
+                                    <option value="title"     >Title [a-z]</option>
+                                    <option value="titleDesc" >Title [z-a]</option>
+                                    <option value="author"    >Author [a-z]</option>
+                                    <option value="authorDesc">Author [z-a]</option>
+                                    <option value="mostVoted" >Most Voted</option>
+                                    <option value="lessVoted" >Less Voted</option>
+                                </Input>
+                            </FormGroup>
+                        </Form>
+                        </aside>
+                    </div>
+                </main>
+            </Fragment>
         )
     }
 }
 
-export default connect((state) => ({
-    posts: state.posts
-}))(Posts)
+function mapStateToProps(state, { match }){
+    const { category, sortCode } = match.params
+    return {
+        posts: Object.values(state.posts).filter(post =>
+                    category
+                        ? post.category === category && !post.deleted
+                        : !post.deleted).sort(sortBy(sortParam(sortCode))) ,
+        categories: Object.values(state.categories)
+    }
+}
+export default withRouter(connect(mapStateToProps)(Posts))

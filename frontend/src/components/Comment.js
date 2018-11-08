@@ -1,56 +1,63 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
-import * as API from '../ReadableAPI'
+import { connect } from 'react-redux'
+// import { Badge, Row, Col } from 'reactstrap'
+import { formatDate } from '../lib/utils'
+
+import {
+    handleDeleteComment,
+    handleAddCommentVote,
+    handleDeleteCommentVote
+} from '../actions/comments'
+
+import Votes from './Votes'
+import Edit from './Edit'
 
 class Comment extends Component {
-    state = { comment: null, comments: [] }
-
-    componentDidMount(){ 
-        const { comment } = this.props
-        this.setState({comment})
-    }
-
     upVote = () => {
-        API.voteComment(this.state.comment.id, 'upVote')
-            .then(comment => {
-                this.setState({comment})
-            })
+        const { dispatch, comment } = this.props
+        dispatch(handleAddCommentVote(comment.id))
     }
 
     downVote = () => {
-        API.voteComment(this.state.comment.id, 'downVote')
-            .then(comment => {
-                this.setState({comment})
-            })
+        const { dispatch, comment } = this.props
+        dispatch(handleDeleteCommentVote(comment.id))
     }
 
     deleteComment = () => {
-        API.deleteComment(this.state.comment.id)
-            .then(comment => {
-                this.setState({comment})
-            })
+        const { dispatch, comment } = this.props
+        dispatch(handleDeleteComment(comment))
     }
-    
 
     render(){
-        const { comment } = this.state
-        if(comment){
-            return (
+        const { comment } = this.props
+        return comment && (
                 <div>
-                    <h5>{comment.author} at {comment.timestamp}</h5>
-                    <span>{comment.voteScore}</span>
-                    <button onClick={this.upVote}>+</button>
-                    <button onClick={this.downVote}>-</button>
-                    <p>{comment.body}</p>
-                    <Link to={`/comments/${comment.id}/edit`}>Edit</Link>
-                    <button onClick={this.deleteComment}>Delete</button>
-                    
+                    <Votes
+                        votes={comment.voteScore}
+                        upVote={this.upVote}
+                        downVote={this.downVote} />
+                    <div style={{
+                        background: "#e9ecef",
+                        padding: "10px",
+                        margin: "10px 0",
+                        borderRadius: "5px" }}>
+                        <p className="blog-post-meta">
+                            {formatDate(comment.timestamp)} by <a>{comment.author}</a>
+                            <Edit
+                                editLink={`/comments/${comment.id}/edit`}
+                                onDelete={this.deleteComment} />
+                        </p>
+                        <p>{comment.body}</p>
+
+                    </div>
                 </div>
             )
-        }else{
-            return <li>Loading ...</li>
-        }
     }
 }
 
-export default Comment
+function mapStateToProps({ comments }, { id }){
+    return {
+        comment: comments[id]
+    }
+}
+export default connect(mapStateToProps)(Comment)
