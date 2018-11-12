@@ -76,9 +76,19 @@ class Post extends Component {
                     </Row>
                 </main>
             )
-        }else {
-            return ""
         }
+
+        return (
+            <main role="main" className="container" style={{ marginTop: "20px"}}>
+                <Row>
+                    <Col className="blog-main">
+                        <div className="blog-post">
+                            <h2>Post not found!</h2>
+                        </div>
+                    </Col>
+                </Row>
+            </main>
+        )
     }
 }
 
