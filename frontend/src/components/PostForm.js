@@ -13,7 +13,8 @@ class PostForm extends Component {
         title: '',
         author: '',
         body: '',
-        category: ''
+        category: '',
+        commentCount: ''
     }
 
     componentDidMount(){
@@ -24,7 +25,8 @@ class PostForm extends Component {
             title: post ? post.title : "",
             author: post ? post.author : "",
             body: post ? post.body : "",
-            category: post ? post.category : "",
+            commentCount: post ? post.commentCount : 0,
+            category: post ? post.category : categories[0].name,
         })
     }
 
@@ -34,7 +36,7 @@ class PostForm extends Component {
 
     savePost = () => {
         const { dispatch } = this.props
-        const { post, title, author, body, category } = this.state
+        const { post, title, author, body, category, commentCount } = this.state
         const newPost = {
             id: post ? post.id : generateId(),
             voteScore: post ? post.voteScore : 1,
@@ -43,6 +45,7 @@ class PostForm extends Component {
             body,
             author,
             category,
+            commentCount,
         }
 
         dispatch(handleAddPost(newPost, post))
@@ -58,7 +61,7 @@ class PostForm extends Component {
             body,
             category
         } = this.state
-        
+
         return categories && (
                 <main role="main" className="container" style={{ marginTop: "20px"}}>
                     <div className="row">
@@ -102,8 +105,8 @@ class PostForm extends Component {
                                         value={category}
                                         onChange={(event) => this.updateFields(event.target)} >
                                         {categories.map((category) => {
-                                            return <option 
-                                                key={category.path} 
+                                            return <option
+                                                key={category.path}
                                                 value={category.name}>
                                                 {category.name}
                                             </option>
@@ -111,7 +114,7 @@ class PostForm extends Component {
                                     </Input>
                                 </FormGroup>
                                 <div>
-                                    <Button 
+                                    <Button
                                         onClick={this.savePost}>
                                         {post ? "Edit" : "Add"} Post
                                     </Button>
