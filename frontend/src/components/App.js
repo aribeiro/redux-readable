@@ -11,8 +11,7 @@ import { handleInitialData } from '../actions/shared'
 
 class App extends Component {
     componentDidMount(){
-        const { dispatch } = this.props
-        dispatch(handleInitialData())
+        this.props.handleInitialData()
     }
 
     render() {
@@ -75,4 +74,12 @@ function mapStateToProps({ loading }){
     return { loading }
 }
 
-export default connect(mapStateToProps)(App)
+function mapDispatchToProps(dispatch){
+    return {
+        handleInitialData(){
+            dispatch(handleInitialData())
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App)

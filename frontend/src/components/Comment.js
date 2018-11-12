@@ -16,18 +16,18 @@ import Edit from './Edit'
 
 class Comment extends Component {
     upVote = () => {
-        const { dispatch, comment } = this.props
-        dispatch(handleAddCommentVote(comment.id))
+        const { comment, handleAddCommentVote } = this.props
+        handleAddCommentVote(comment.id)
     }
 
     downVote = () => {
-        const { dispatch, comment } = this.props
-        dispatch(handleDeleteCommentVote(comment.id))
+        const { comment, handleDeleteCommentVote } = this.props
+        handleDeleteCommentVote(comment.id)
     }
 
     deleteComment = () => {
-        const { dispatch, comment } = this.props
-        dispatch(handleDeleteComment(comment))
+        const { comment, handleDeleteComment } = this.props
+        handleDeleteComment(comment)
     }
 
     render(){
@@ -62,4 +62,17 @@ function mapStateToProps({ comments }, { id }){
         comment: comments[id]
     }
 }
-export default connect(mapStateToProps)(Comment)
+function mapDispatchToProps(dispatch){
+    return { 
+        handleAddCommentVote(id){ 
+            dispatch(handleAddCommentVote(id))
+        },
+        handleDeleteCommentVote(id){
+            dispatch(handleDeleteCommentVote(id))
+        },
+        handleDeleteComment(comment){
+            dispatch(handleDeleteComment(comment))
+        },
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Comment)

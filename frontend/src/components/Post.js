@@ -17,18 +17,18 @@ import Edit from './Edit'
 
 class Post extends Component {
     upVote = () => {
-        const { dispatch, post } = this.props
-        dispatch(handleAddPostVote(post.id))
+        const { handleAddPostVote, post } = this.props
+        handleAddPostVote(post.id)
     }
 
     downVote = () => {
-        const { dispatch, post } = this.props
-        dispatch(handleDeletePostVote(post.id))
+        const { handleDeletePostVote, post } = this.props
+        handleDeletePostVote(post.id)
     }
 
     deletePost = () => {
-        const { dispatch, post } = this.props
-        dispatch(handleDeletePost(post))
+        const { handleDeletePost, post } = this.props
+        handleDeletePost(post)
         this.props.history.push('/')
     }
 
@@ -104,4 +104,17 @@ function mapStateToProps(state, { match }){
                     .map(comment => comment.id)
     }
 }
-export default withRouter(connect(mapStateToProps)(Post))
+function mapDispatchToProps(dispatch){
+    return { 
+        handleAddPostVote(id){ 
+            dispatch(handleAddPostVote(id))
+        },
+        handleDeletePostVote(id){
+            dispatch(handleDeletePostVote(id))
+        },
+        handleDeletePost(post){
+            dispatch(handleDeletePost(post))
+        },
+    }
+}
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Post))

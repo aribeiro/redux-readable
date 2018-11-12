@@ -35,7 +35,7 @@ class PostForm extends Component {
     }
 
     savePost = () => {
-        const { dispatch } = this.props
+        const { handleAddPost } = this.props
         const { post, title, author, body, category, commentCount } = this.state
         const newPost = {
             id: post ? post.id : generateId(),
@@ -48,7 +48,7 @@ class PostForm extends Component {
             commentCount,
         }
 
-        dispatch(handleAddPost(newPost, post))
+        handleAddPost(newPost, post)
         this.props.history.push('/')
     }
 
@@ -134,4 +134,11 @@ function mapStateToProps(state, { match }){
         categories: Object.values(state.categories)
     }
 }
-export default withRouter(connect(mapStateToProps)(PostForm))
+function mapDispatchToProps(dispatch){
+    return {
+        handleAddPost(newPost, post){
+            dispatch(handleAddPost(newPost, post))
+        } 
+    }
+}
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(PostForm))

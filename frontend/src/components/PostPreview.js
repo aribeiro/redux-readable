@@ -12,13 +12,13 @@ import PostDetails from './PostDetails'
 
 class Post extends Component {
     upVote = () => {
-        const { dispatch, post } = this.props
-        dispatch(handleAddPostVote(post.id))
+        const { handleAddPostVote, post } = this.props
+        handleAddPostVote(post.id)
     }
 
     downVote = () => {
-        const { dispatch, post } = this.props
-        dispatch(handleDeletePostVote(post.id))
+        const { handleDeletePostVote, post } = this.props
+        handleDeletePostVote(post.id)
     }
 
     render(){
@@ -53,4 +53,14 @@ function mapStateToProps(state, { postId }){
         post: state.posts[postId],
     }
 }
-export default connect(mapStateToProps)(Post)
+function mapDispatchToProps(dispatch){
+    return { 
+        handleAddPostVote(id){ 
+            dispatch(handleAddPostVote(id))
+        },
+        handleDeletePostVote(id){
+            dispatch(handleDeletePostVote(id))
+        },
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Post)

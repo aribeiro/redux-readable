@@ -28,7 +28,7 @@ class CommentForm extends Component {
     }
 
     saveComment = () => {
-        const { dispatch } = this.props
+        const { handleAddComment } = this.props
         const { comment, parentId, body, author } = this.state
 
         const newComment = {
@@ -40,7 +40,7 @@ class CommentForm extends Component {
             author
         }
 
-        dispatch(handleAddComment(newComment, comment))
+        handleAddComment(newComment, comment)
         this.props.history.goBack()
     }
 
@@ -92,4 +92,11 @@ function mapStateToProps(state, { match }){
         comment: state.comments[id]
     }
 }
-export default connect(mapStateToProps)(CommentForm)
+function mapDispatchToProps(dispatch){
+    return {
+        handleAddComment(newComment, comment){
+            dispatch(handleAddComment(newComment, comment))
+        } 
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(CommentForm)
