@@ -29,10 +29,6 @@ class App extends Component {
                                 <Route exact path="/posts/new" component={PostForm} />
                                 <Route 
                                     exact 
-                                    path="/posts/:id" 
-                                    component={Post} />
-                                <Route 
-                                    exact 
                                     path="/posts/:id/edit" 
                                     component={PostForm} />
                                 <Route 
@@ -51,6 +47,10 @@ class App extends Component {
                                     exact 
                                     path="/:category" 
                                     component={Posts} />
+                                <Route 
+                                    exact 
+                                    path="/:category/:id" 
+                                    component={Post} />
                             </div>
                         </div>
                     )
