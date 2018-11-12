@@ -32,7 +32,7 @@ class Post extends Component {
                 <div className="blog-post-content">
                     <h2 className="blog-post-title">
                         <Link
-                            to={`/posts/${post.id}`}>
+                            to={`/${post.category}/${post.id}`}>
                             {post.title}
                         </Link>
                     </h2>

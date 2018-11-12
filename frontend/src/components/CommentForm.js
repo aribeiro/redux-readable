@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap'
 import { generateId } from '../lib/utils'
 
-import { handleAddComment } from '../actions/comments'
+import { handleAddComment } from '../actions/shared'
 
 class CommentForm extends Component {
     state = {
@@ -41,7 +41,7 @@ class CommentForm extends Component {
         }
 
         dispatch(handleAddComment(newComment, comment))
-        this.props.history.push(`/posts/${newComment.parentId}`)
+        this.props.history.goBack()
     }
 
     render(){
