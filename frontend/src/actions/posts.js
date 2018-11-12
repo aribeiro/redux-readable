@@ -7,6 +7,8 @@ export const DELETE_POST = 'DELETE_POST'
 export const ADD_POST_VOTE = 'ADD_POST_VOTE'
 export const DELETE_POST_VOTE = 'DELETE_POST_VOTE'
 
+export const UPDATE_POST_COMMENT_COUNT = 'UPDATE_POST_COMMENT_COUNT'
+
 export function receivePosts(posts){
     return {
         type: RECEIVE_POSTS,
@@ -37,6 +39,13 @@ export function deletePostVote(id){
     return {
         type: DELETE_POST_VOTE,
         id
+    }
+}
+export function updatePostCommentCount(id, value){
+    return {
+        type: UPDATE_POST_COMMENT_COUNT,
+        id,
+        value
     }
 }
 

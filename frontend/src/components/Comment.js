@@ -4,10 +4,12 @@ import { connect } from 'react-redux'
 import { formatDate } from '../lib/utils'
 
 import {
-    handleDeleteComment,
     handleAddCommentVote,
     handleDeleteCommentVote
 } from '../actions/comments'
+import {
+    handleDeleteComment
+} from '../actions/shared'
 
 import Votes from './Votes'
 import Edit from './Edit'

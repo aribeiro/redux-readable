@@ -39,42 +39,6 @@ export function deleteCommentVote(id){
     }
 }
 
-export function handleAddComment(comment, oldComment){
-    return (dispatch) => {
-        if(oldComment){  
-            dispatch(addComment(comment))
-            API.updateComment(comment.id, comment)
-                .then()
-                .catch(err => { 
-                    dispatch(addComment(oldComment)) 
-                    console.log(err)
-                    alert('Update comment fail! Try again!')
-                })
-        } else {
-            dispatch(addComment(comment))
-            API.addComment(comment)
-                .then()
-                .catch(err => { 
-                    dispatch(deleteComment(comment.id)) 
-                    console.log(err)
-                    alert('Add comment fail! Try again!')
-                })
-        }
-    }
-}
-export function handleDeleteComment(comment){
-    return (dispatch) => {
-        dispatch(deleteComment(comment.id))
-        API.deleteComment(comment.id)
-            .then()
-            .catch(err => { 
-                dispatch(addComment(comment)) 
-                console.log(err)
-                alert('Delete comment fail! Try again!')
-            })
-    }
-
-}
 export function handleAddCommentVote(id){
     return (dispatch) => {
         dispatch(addCommentVote(id))
