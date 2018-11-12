@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 
 import Post from './Post'
 import Posts from './Posts'
@@ -24,9 +24,15 @@ class App extends Component {
                         <div className="App">
                             <div className="content">
                                 <Header />
-                                <Route exact path="/" component={Posts} />
-                                <Route exact path="/by/:sortCode" component={Posts} />
-                                <Route exact path="/posts/new" component={PostForm} />
+                                <Switch>
+                                <Route 
+                                    exact 
+                                    path="/" 
+                                    component={Posts} />
+                                <Route 
+                                    exact 
+                                    path="/posts/new" 
+                                    component={PostForm} />
                                 <Route 
                                     exact 
                                     path="/posts/:id/edit" 
@@ -41,7 +47,7 @@ class App extends Component {
                                     component={CommentForm} />
                                 <Route 
                                     exact 
-                                    path="/:category/by/:sortCode" 
+                                    path="/by/:sortCode" 
                                     component={Posts} />
                                 <Route 
                                     exact 
@@ -49,8 +55,13 @@ class App extends Component {
                                     component={Posts} />
                                 <Route 
                                     exact 
+                                    path="/:category/by/:sortCode" 
+                                    component={Posts} />
+                                <Route 
+                                    exact 
                                     path="/:category/:id" 
                                     component={Post} />
+                            </Switch>
                             </div>
                         </div>
                     )
