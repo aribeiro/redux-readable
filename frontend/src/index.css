@@ -4,31 +4,31 @@ body {
   font-family: sans-serif;
   background-color: lightgray;
 }
-.App{
+.App {
   margin: auto;
-  max-width: 1024px
+  max-width: 1024px;
 }
 
-.main{
+.main {
   height: 100%;
 }
-.content{
-  background: #fefefe
+.content {
+  background: #fefefe;
 }
-.votes{
+.votes {
   width: 10%;
-  float: left
+  float: left;
 }
-.blog-post{
+.blog-post {
   background: #ffffff;
   float: left;
   width: 100%;
 }
-.blog-post-content{
+.blog-post-content {
   width: 90%;
-  float: left
+  float: left;
 }
-aside{
+aside {
   height: 100%;
   background: #f3f3f3;
   padding: 30px;
