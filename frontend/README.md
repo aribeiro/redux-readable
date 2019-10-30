@@ -1,68 +1,45 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Readable Redux Project
 
-## Available Scripts
+This project is my final project for Udacity Nanodegree Third Module React and Redux(React e Redux)
 
-In the project directory, you can run:
+The goal for this project is create an app using React and Redux with the follow requisits:
 
-### `yarn start`
+  - The Project is a blog structure able to add, edit and delete posts, add, edit and delete comments for the posts create, vote in the posts and comments
+  - It must to use redux to manage the states, and update information in the provided API.
+  - It must to be able to add Posts in predefined categories, and be able to change the category a post belongs
+  - It must to be able to sort posts by votes, and creation date
+  - Also must to have a view to show the full post information
+  - And have forms to add and edit Posts and Comments 
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Requirements
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+You must to have `node.js` installed in order to install and run this app.
+If you don't you can find it [here](https://nodejs.org/en/)
 
-### `yarn test`
+## Installation and Start instructions
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### API
 
-### `yarn build`
+To install al requirements for the API, go to `api-server/` path and run the following command:
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+`yarn install` or `npm install`
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+To run the API server run:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+`node server`
 
-### `yarn eject`
+OR you can follow the instructions in the `api-server` path `README.md` file.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### APP
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+To install al requirements for the APP, go to `frontend/` path and run the following command:
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+`yarn install` or `npm install`
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+To run the API server run:
 
-## Learn More
+`yarn start` or `npm start`
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Create React App
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `yarn build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app). You can find more information on how to perform common tasks [here](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md).
