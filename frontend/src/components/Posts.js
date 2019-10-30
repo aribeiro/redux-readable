@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import { withRouter, Link } from "react-router-dom";
 import sortBy from "sort-by";
@@ -15,7 +15,7 @@ function Posts({ posts, sortCode, history, pathname }) {
   };
 
   return (
-    <Fragment>
+    <>
       <main role="main" className="container" style={{ marginTop: "20px" }}>
         <div className="row">
           <div className="col-md-8 blog-main">
@@ -53,7 +53,7 @@ function Posts({ posts, sortCode, history, pathname }) {
           </aside>
         </div>
       </main>
-    </Fragment>
+    </>
   );
 }
 

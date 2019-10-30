@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-// import { Badge, Row, Col } from 'reactstrap'
 import { formatDate } from "../lib/utils";
 
 import {
